@@ -7,7 +7,7 @@ export default function ProblemsSolutions() {
 
   const problems = [
     {
-      title: "Scattered Secrets",
+      title: "Secrets Chaos",
       desc: "API keys spread across .env files, dashboards, and random documents."
     },
     {

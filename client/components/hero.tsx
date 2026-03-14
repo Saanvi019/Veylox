@@ -35,20 +35,20 @@ export default function Hero() {
         </p>
 
        <h1 className="mt-9 text-8xl font-bold leading-tight tracking-tight whitespace-nowrap text-[#112b69]">
-  From One Secure Vault
+  From <span className="text-[#d0833f]">One</span> Secure Vault
 </h1>
 
         <div className="mt-10 flex gap-6">
           <Link
             href="/signup"
-            className="bg-[#d0833f] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#0a1b43] transition"
+            className="bg-[#2c1e64] text-[#f8f8f8] px-6 py-3 rounded-xl font-semibold hover:bg-[#e49148]  hover:text-white transition"
           >
             Get Started
           </Link>
 
           <Link
             href="/login"
-            className="border border-[#d0833f] text-black px-6 py-3 rounded-xl hover:bg-[#1c1c1c] hover:text-white transition"
+            className="border border-[#d0833f] text-black px-6 py-3 rounded-xl hover:bg-[#e49148]  hover:text-white transition"
           >
             Login
           </Link>

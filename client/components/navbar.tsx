@@ -113,7 +113,7 @@ export default function Navbar() {
         </div>
 
         {/* RIGHT CTA */}
-        <button className="bg-white text-black px-6 py-2 rounded-full font-medium hover:scale-105 transition">
+        <button className="bg-[#d0833f] text-black px-6 py-2 rounded-full font-medium hover:scale-105 transition">
           Book a call
         </button>
       </nav>
