@@ -5,9 +5,9 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        
+    <section className="relative min-h-screen flex items-center px-20 overflow-hidden">
 
+      {/* Background */}
       <div className="absolute inset-0 -z-10">
         <Image
           src="/blueImg.png"
@@ -18,32 +18,37 @@ export default function Hero() {
         />
       </div>
 
-      <div className="absolute inset-0 bg-white/00 backdrop-blur-[0px] -z-10" />
+      {/* Optional overlay */}
+      <div className="absolute inset-0 bg-white/0 -z-10 font-[var(--font-bricolage)]" />
 
-      <div className="max-w-4xl px-6 text-center text-[#1c1c1c]">
+      {/* Content */}
+      <div className="max-w-3xl text-left font-[var(--font-bricolage)]">
 
-        <h1 className="text-5xl md:text-6xl font-bold leading-tight tracking-tight">
+        <h1 className="font-[var(--font-bricolage)] text-4xl md:text-5xl font-light leading-tight tracking-tight text-[#112962]">
           Control Every API Key
-          <br />
-          From One Secure Vault
         </h1>
 
-        <p className="mt-6 text-lg md:text-xl text-[#4a4a4a] max-w-2xl mx-auto">
-          Organize secrets, monitor usage, and protect your developer stack —
-          all from a centralized control center built for modern teams.
+        <p className="mt-8 text-lg md:text-xl text-[#070707] max-w-xl font-light">
+          Your secrets deserve better than scattered <span className="text-[#d0833f] font-bold">.env</span> files. <br />
+          Stay secure while your projects scale. <br />
+          Built for developers who care about control and security.
         </p>
 
-        <div className="mt-10 flex justify-center gap-6">
+       <h1 className="mt-9 text-8xl font-bold leading-tight tracking-tight whitespace-nowrap text-[#112b69]">
+  From One Secure Vault
+</h1>
+
+        <div className="mt-10 flex gap-6">
           <Link
             href="/signup"
-            className="bg-[#1c1c1c] text-white px-6 py-3 rounded-xl font-semibold hover:bg-black transition"
+            className="bg-[#d0833f] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#0a1b43] transition"
           >
             Get Started
           </Link>
 
           <Link
             href="/login"
-            className="border border-[#1c1c1c] px-6 py-3 rounded-xl hover:bg-[#1c1c1c] hover:text-white transition"
+            className="border border-[#d0833f] text-black px-6 py-3 rounded-xl hover:bg-[#1c1c1c] hover:text-white transition"
           >
             Login
           </Link>

@@ -7,17 +7,27 @@ export default function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState<DropdownType | null>(null);
 
   return (
-    <div className="w-full flex justify-center mt-6">
-      {/* NAV CONTAINER */}
-      <nav className="w-[90%] max-w-4xl bg-black/80 backdrop-blur-md text-white 
-                      rounded-full px-8 py-4 flex items-center justify-between shadow-lg">
+    <div className="fixed top-0 left-0 w-full flex justify-center z-50">
+  <nav
+  className="
+   mt-4 w-[90%] h-[60] max-w-5xl
+  bg-white/10
+  backdrop-blur-xl
+  border border-white/20
+  text-black
+  rounded-full
+  px-8 py-4
+  flex items-center justify-between
+  shadow-2xl
+  "
+>
 
         {/* LEFT LOGO */}
         <div className="flex items-center gap-3">
           <div className="bg-white text-black font-bold w-8 h-8 flex items-center justify-center rounded-md">
             A
           </div>
-          <span className="font-semibold text-lg">DevStudio</span>
+          <span className="font-semibold text-lg">Veylox</span>
         </div>
 
         {/* CENTER LINKS */}
