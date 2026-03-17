@@ -7,7 +7,7 @@ export default function HowItWorks() {
   return (
     <LampContainer>
 
-      <section className="w-full max-w-7xl mx-auto py-32 px-8 text-blue-950 mt-40">
+      <section className="w-full max-w-7xl mx-auto py-25  px-8 text-blue-950 mt-40">
 
         {/* Section Header */}
         <div className="text-center mb-20">
@@ -44,7 +44,7 @@ export default function HowItWorks() {
 
             {/* Image Placeholder */}
             <img
-              src="/placeholder1.png"
+              src="/blueImg.png"
               alt="Preview"
               className="mt-6 h-[120px] w-full object-cover rounded-xl border border-white/10"
             />

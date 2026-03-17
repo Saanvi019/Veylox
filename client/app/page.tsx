@@ -4,6 +4,7 @@ import Navbar from "@/components/navbar";
 import ProblemsSolutions from "@/components/problemSolutions";
 import Image from "next/image";
 import HowItWorks from "@/components/howItWorks";
+import Security from "@/components/security";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <Hero/>
       <ProblemsSolutions/>
       <HowItWorks/>
+      <Security/>
     </div>
     
     </>
