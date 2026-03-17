@@ -1,9 +1,9 @@
-import Features from "@/components/features";
+
 import Hero from "@/components/hero";
 import Navbar from "@/components/navbar";
-import Problem from "@/components/problem";
 import ProblemsSolutions from "@/components/problemSolutions";
 import Image from "next/image";
+import HowItWorks from "@/components/howItWorks";
 
 export default function Home() {
   return (
@@ -12,7 +12,7 @@ export default function Home() {
       <Navbar/>
       <Hero/>
       <ProblemsSolutions/>
-      <Features/>
+      <HowItWorks/>
     </div>
     
     </>
