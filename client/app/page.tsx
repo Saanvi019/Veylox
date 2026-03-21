@@ -5,6 +5,7 @@ import ProblemsSolutions from "@/components/problemSolutions";
 import Image from "next/image";
 import HowItWorks from "@/components/howItWorks";
 import Security from "@/components/security";
+import Pricing from "@/components/pricing";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <ProblemsSolutions/>
       <HowItWorks/>
       <Security/>
+      <Pricing/>
     </div>
     
     </>
