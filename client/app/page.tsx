@@ -6,6 +6,8 @@ import Image from "next/image";
 import HowItWorks from "@/components/howItWorks";
 import Security from "@/components/security";
 import Pricing from "@/components/pricing";
+import CTA from "@/components/cta";
+import Footer from "@/components/footer";
 
 export default function Home() {
   return (
@@ -17,6 +19,8 @@ export default function Home() {
       <HowItWorks/>
       <Security/>
       <Pricing/>
+      
+      <Footer/>
     </div>
     
     </>

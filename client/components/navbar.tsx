@@ -1,5 +1,6 @@
 "use client";
-import Link from "next/link";
+import Link from "next/link"; 
+import {KeyRound} from "lucide-react"
 
 export default function Navbar() {
   return (
@@ -20,10 +21,8 @@ export default function Navbar() {
 
         {/* LOGO */}
         <div className="flex items-center gap-3">
-          <div className="bg-white text-black font-bold w-8 h-8 flex items-center justify-center rounded-md">
-            V
-          </div>
-          <span className="font-semibold text-lg">Veylox</span>
+          <KeyRound className="text-[#d0833f] w-5 h-5 -mr-2"/>
+          <span className="font-semibold text-xl">Veylox<span className="text-[#d0833f]">.</span></span>
         </div>
 
         {/* NAV LINKS */}

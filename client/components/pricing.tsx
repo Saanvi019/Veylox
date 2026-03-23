@@ -50,9 +50,9 @@ export default function Pricing() {
   const current = plans[selected];
 
   return (
-    <section className="relative bg-[#f5f9ff] py-32 px-8 overflow-hidden">
+    <section className="relative  py-32 px-8 font- overflow-hidden">
        <div className="absolute top-[-150px] right-[-150px] w-[600px] h-[400px] rounded-full 
-bg-gradient-to-br from-[#f8ad0b] to-[#1d3576] blur-3xl opacity-900 pointer-events-none" />
+bg-gradient-to-br from-[#fab339] to-[#164de2bb] blur-3xl opacity-900 pointer-events-none" />
       <div className="max-w-7xl mx-auto">
         
         {/* HEADER */}
