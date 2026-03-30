@@ -309,3 +309,20 @@ body {
   bottom:-60px;
   right: 6rem;
 }
+
+.input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  outline: none;
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  background: #0a1738;
+  color: white;
+  font-weight: 600;
+}
