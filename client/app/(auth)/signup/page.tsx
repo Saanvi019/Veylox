@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
   const router = useRouter();
+  const [error, setError] = useState("");
 
   const [form, setForm] = useState({
     name: "",
@@ -20,6 +21,17 @@ export default function SignupPage() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setError("");
+
+    if (!form.name || !form.email || !form.password) {
+      setError("All fields are required");
+      return;
+    } 
+    if (form.password.length < 6) {
+     setError("Password must be at least 6 characters");
+     return;
+    }
+
 
     try {
       const res = await fetch("http://localhost:4000/api/auth/signup", {
@@ -33,14 +45,14 @@ export default function SignupPage() {
       const data = await res.json();
 
       if (res.ok) {
-        alert("Account created successfully");
-        router.push("/login"); // ✅ correct
+        
+        router.push("/dashboard"); 
       } else {
-        alert(data.message || "Signup failed");
+        setError(data.message || "Signup failed");
       }
     } catch (err) {
       console.error(err);
-      alert("Something went wrong");
+      setError("Something went wrong");
     }
   };
 
@@ -92,7 +104,9 @@ export default function SignupPage() {
 
             {/* PASSWORD */}
             <input name="password" type="password" onChange={handleChange} placeholder="Create a password" className="input" />
-
+            {error && (
+              <p className="text-red-500 text-sm">{error}</p>
+            )}
             <button className="btn">Create Account</button>
 
             <p className="text-center text-sm text-zinc-600">

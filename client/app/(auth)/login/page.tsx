@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const router = useRouter();
+  const [error, setError] = useState("");
 
   const [form, setForm] = useState({
     email: "",
@@ -18,7 +19,12 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setError('');
 
+    if(!form.email || !form.password){
+      setError("All fields are required");
+      return;
+    }
     try {
       const res = await fetch("http://localhost:4000/api/auth/login", {
         method: "POST",
@@ -32,14 +38,14 @@ export default function LoginPage() {
 
       if (res.ok) {
         localStorage.setItem("token", data.token);
-        alert("Login successful");
+        
         router.push("/dashboard");
       } else {
-        alert(data.message || "Login failed");
+        setError(data.message || "Login failed");
       }
     } catch (err) {
       console.error(err);
-      alert("Something went wrong");
+      setError("Something went wrong");
     }
   };
 
@@ -92,7 +98,9 @@ export default function LoginPage() {
                 className="w-full rounded-xl border border-stone-300 bg-stone-50 px-4 py-3 text-sm focus:border-[#d0833f] focus:ring-2 focus:ring-[#d0833f]/30 outline-none"
               />
             </div>
-
+             {error && (
+                <p className="text-red-500 text-sm">{error}</p>
+            )}
             {/* BUTTON */}
             <button
               type="submit"
