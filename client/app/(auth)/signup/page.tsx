@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link"; // ✅ added
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -94,6 +95,25 @@ export default function SignupPage() {
               <p className="mt-2 text-sm text-zinc-600">
                 Start managing your API keys securely with Veylox.
               </p>
+            </div>
+            <div className="mt-6 flex justify-center gap-3">
+  
+             <button
+                onClick={() => signIn("google")}
+                className="flex items-center gap-2 border bg-black text-white px-3 py-2 rounded-lg text-sm  transition hover:border-amber-600 "
+              >
+               <img src="/google.jpg" alt="Google" className="w-3 h-3" />
+               Google
+             </button>
+             <button
+               onClick={() => signIn("github")}
+               className="flex items-center gap-2 border border-gray-300 px-3 py-2 rounded-lg text-sm hover:bg-gray-100 transition"
+              >
+              <img src="/GitHub.svg" alt="GitHub" className="w-5 h-5" />
+                 GitHub
+            </button>
+
+
             </div>
 
             {/* NAME */}
