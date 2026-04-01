@@ -326,3 +326,7 @@ body {
   color: white;
   font-weight: 600;
 }
+.writing-mode-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
