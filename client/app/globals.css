@@ -330,3 +330,7 @@ body {
   writing-mode: vertical-rl;
   text-orientation: mixed;
 }
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}

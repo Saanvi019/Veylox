@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 
 
 export default function Hero() {
@@ -14,7 +15,7 @@ export default function Hero() {
           alt="Background texture"
           fill
           priority
-          className="object-cover scale-105 blur-sm "
+          className="object-cover scale-105 blur-md  "
         />
       </div>
 
@@ -31,41 +32,34 @@ export default function Hero() {
   veylox
 </h1>
 
+
         
 
-    <div className="flex justify-end h-screen items-center ml-350 "> 
-  <div className="max-w-xl text-right">
+    <div className="flex justify-end w-full mt-10">
+  <div className="max-w-xl text-center">
 
-    <h1 className="font-[var(--font-bricolage)] text-4xl md:text-6xl font-light leading-tight tracking-tight text-[#ed9d4d] pl-0 pt-10">
-      Control <br /> Every API KEY
-    </h1>
-    <h1 className="mt-9 text-3xl font-light leading-tight tracking-normal whitespace-nowrap text-[#8ae5fbb7]">
-      FROM <span className="text-[#d0943f]">ONE</span> SECURE VAULT
+    <h1 className="text-4xl md:text-7xl font-light leading-tight ml-150  tracking-tight text-[#ed9d4d] whitespace-nowrap">
+      Control Every API Key
     </h1>
 
-    <p className="mt-8 text-lg md:text-xl text-[#ffffff] font-light">
-      Your secrets deserve better than scattered <span className="text-[#d0833f] font-bold">.env</span> files. <br />
-      Stay secure while your projects scale. <br />
-      Built for developers who care about control and security.
-    </p>
+    <h2 className=" text-3xl tracking-widest font-light text-[#4d817e9b] w-full ml-197">
+      FROM ONE SECURE VAULT
+    </h2>
+    <div className="ml-200 w-full mt-20 flex gap-6 justify-center">
+      <HoverBorderGradient
+  as="button"
+  containerClassName="rounded-xl"
+  className=" text-white px-6 py-3 font-semibold "
+>
+  <Link href="/signup">Get Started</Link>
+</HoverBorderGradient>
+
+      
+    </div>
+
+    <p className=" mt-50 text-lg font-extralight text-left md:text-xl ml-25 text-white/40 w-full"> Your secrets deserve better than scattered <span className="text-[#d0833f] font-bold">.env</span> files. <br /> Stay secure while your projects scale. <br /> Built for developers who care about control and security. </p>
 
     
-
-    <div className="mt-10 flex gap-6 justify-end">
-      <Link
-        href="/signup"
-        className="bg-[#2c1e64] text-[#f8f8f8] px-6 py-3 rounded-xl font-semibold hover:bg-[#e49148] hover:text-white transition"
-      >
-        Get Started
-      </Link>
-
-      <Link
-        href="/login"
-        className="border border-[#d0833f] text-black px-6 py-3 rounded-xl hover:bg-[#e49148] hover:text-white transition"
-      >
-        Login
-      </Link>
-    </div>
 
   </div>
 </div>
