@@ -15,7 +15,7 @@ export default function Navbar() {
         px-8 py-4
         flex items-center justify-between
         shadow-2xl
-        text-black
+        text-black h-14
         "
       >
 
