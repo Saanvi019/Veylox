@@ -3,14 +3,16 @@ import { encrypt } from "../utils/encryption.js";
 import { decrypt } from "../utils/encryption.js";
 import { maskKey } from "../utils/mask.js";
 
+
 export const addKey = async (req, res) => {
   try {
-    const { serviceName, apiKey, projectId } = req.body;
+    const { serviceName, apiKey, projectId, label } = req.body;
 
     const encryptedKey = encrypt(apiKey);
 
     const key = await Key.create({
       serviceName,
+      label,
       encryptedKey,
       project: projectId,
     });
@@ -32,9 +34,12 @@ export const getKeysByProject = async (req, res) => {
       const decrypted = decrypt(k.encryptedKey);
 
       return {
-        _id: k._id,
+         _id: k._id,
         serviceName: k.serviceName,
+        label: k.label, 
         maskedKey: maskKey(decrypted),
+        createdAt: k.createdAt,
+        lastUsed: k.lastUsed,
       };
     });
 
@@ -50,6 +55,9 @@ export const getFullKey = async (req, res) => {
     const { keyId } = req.params;
 
     const key = await Key.findById(keyId);
+
+    key.lastUsed = new Date();
+    await key.save();
 
     const decrypted = decrypt(key.encryptedKey);
 

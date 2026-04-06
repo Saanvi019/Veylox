@@ -16,7 +16,8 @@ export default function ProjectPage() {
   const [keys, setKeys] = useState<any[]>([]);
   const [serviceName, setServiceName] = useState("");
   const [apiKey, setApiKey] = useState("");
-
+  const [label, setLabel] = useState("");
+ 
   // 🔥 FETCH KEYS
   useEffect(() => {
     const fetchKeys = async () => {
@@ -69,6 +70,13 @@ export default function ProjectPage() {
         <h2 className="text-lg font-semibold mb-4">Add API Key</h2>
 
         <div className="flex gap-3">
+           <input
+             value={label}
+             onChange={(e) => setLabel(e.target.value)}
+             placeholder="Label (optional)"
+             className="border px-3 py-2 rounded w-1/3"
+           />
+
           <input
             value={serviceName}
             onChange={(e) => setServiceName(e.target.value)}
@@ -98,7 +106,8 @@ export default function ProjectPage() {
                 body: JSON.stringify({
                   serviceName,
                   apiKey,
-                  projectId,
+                  projectId, 
+                  label,
                 }),
               });
 
@@ -120,6 +129,7 @@ export default function ProjectPage() {
 
                 setServiceName("");
                 setApiKey("");
+                setLabel("");
               }
             }}
             className="bg-[#0a1738] text-white px-4 py-2 rounded"
@@ -143,11 +153,30 @@ export default function ProjectPage() {
                 className="flex justify-between items-center border-b pb-2"
               >
                 <div>
-                  <p className="font-medium">{key.serviceName}</p>
-                  <p className="text-gray-500 text-sm">
-                    {key.maskedKey}
-                  </p>
-                </div>
+  <p className="font-medium">{key.serviceName}</p>
+
+  {/* 🔥 LABEL */}
+  {key.label && (
+    <p className="text-xs text-gray-400">
+      {key.label}
+    </p>
+  )}
+
+  <p className="text-gray-500 text-sm">
+    {key.maskedKey}
+  </p>
+
+  {/* OPTIONAL METADATA */}
+  <p className="text-xs text-gray-400 mt-1">
+    Created: {new Date(key.createdAt).toLocaleDateString()}
+  </p>
+
+  {key.lastUsed && (
+    <p className="text-xs text-gray-400">
+      Last used: {new Date(key.lastUsed).toLocaleString()}
+    </p>
+  )}
+</div>
 
                 <div className="flex gap-2">
 
