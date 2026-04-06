@@ -4,6 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import authRoutes from "./routes/authRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
+import keyRoutes from "./routes/keyRoutes.js";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 
 app.use("/api/auth",authRoutes);
 app.use("/api/projects", projectRoutes);
+app.use("/api/keys", keyRoutes);
 
 app.get('/',(req,res)=>{
     res.send("port rumming")
