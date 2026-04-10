@@ -8,6 +8,7 @@ export default function Dashboard() {
   const [projects, setProjects] = useState<any[]>([]);
   const [name, setName] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [allKeys, setAllKeys] = useState<any[]>([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -32,8 +33,31 @@ export default function Dashboard() {
       }
     };
 
+    const fetchKeys = async () => {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch("http://localhost:4000/api/keys/user/all", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await res.json();
+  setAllKeys(data);
+};
+
+fetchKeys();
+
     fetchProjects();
   }, []);
+
+  const totalKeys = allKeys.length;
+
+const expiredKeys = allKeys.filter(
+  (k) => k.expiryDate && new Date(k.expiryDate) < new Date()
+).length;
+
+const activeKeys = totalKeys - expiredKeys;
 
   return (
   <div className="min-h-screen bg-[#f5f9ff] p-8">
@@ -53,17 +77,19 @@ export default function Dashboard() {
 
       <div className="bg-white p-6 rounded-2xl shadow">
         <p className="text-sm text-gray-500">API Keys</p>
-        <h2 className="text-2xl font-bold">0</h2>
+        <h2 className="text-2xl font-bold">{totalKeys}</h2>
       </div>
 
       <div className="bg-white p-6 rounded-2xl shadow">
         <p className="text-sm text-gray-500">Active</p>
-        <h2 className="text-2xl font-bold">0</h2>
+        <h2 className="text-2xl font-bold">{activeKeys}</h2>
       </div>
 
       <div className="bg-white p-6 rounded-2xl shadow">
         <p className="text-sm text-gray-500">Expiring</p>
-        <h2 className="text-2xl font-bold text-red-500">0</h2>
+        <h2 className="text-2xl font-bold text-red-500">
+  {expiredKeys}
+</h2>
       </div>
 
     </div>

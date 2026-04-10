@@ -21,6 +21,9 @@ const keySchema = new mongoose.Schema(
       type: Date,
       default: null, 
     },
+    expiryDate: {
+      type: Date,
+    },
   },
   { timestamps: true } 
 );

@@ -17,6 +17,7 @@ export default function ProjectPage() {
   const [serviceName, setServiceName] = useState("");
   const [apiKey, setApiKey] = useState("");
   const [label, setLabel] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
  
   // 🔥 FETCH KEYS
   useEffect(() => {
@@ -77,6 +78,19 @@ export default function ProjectPage() {
              className="border px-3 py-2 rounded w-1/3"
            />
 
+           <div className="flex flex-col">
+  <label className="text-xs text-gray-500 mb-1">
+    Expiry Date
+  </label>
+
+  <input
+    type="date"
+    value={expiryDate}
+    onChange={(e) => setExpiryDate(e.target.value)}
+    className="border px-3 py-2 rounded"
+  />
+</div>
+
           <input
             value={serviceName}
             onChange={(e) => setServiceName(e.target.value)}
@@ -108,6 +122,7 @@ export default function ProjectPage() {
                   apiKey,
                   projectId, 
                   label,
+                  expiryDate,
                 }),
               });
 
@@ -130,6 +145,7 @@ export default function ProjectPage() {
                 setServiceName("");
                 setApiKey("");
                 setLabel("");
+                setExpiryDate("");
               }
             }}
             className="bg-[#0a1738] text-white px-4 py-2 rounded"
@@ -165,6 +181,18 @@ export default function ProjectPage() {
   <p className="text-gray-500 text-sm">
     {key.maskedKey}
   </p>
+
+  {key.expiryDate && (
+  <p className="text-xs text-gray-400">
+    Expires: {new Date(key.expiryDate).toLocaleDateString()}
+  </p>
+)}
+
+{key.isExpired && (
+  <p className="text-xs text-red-500 font-medium">
+    Expired
+  </p>
+)}
 
   {/* OPTIONAL METADATA */}
   <p className="text-xs text-gray-400 mt-1">

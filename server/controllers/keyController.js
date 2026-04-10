@@ -2,11 +2,11 @@ import Key from "../models/key.js";
 import { encrypt } from "../utils/encryption.js";
 import { decrypt } from "../utils/encryption.js";
 import { maskKey } from "../utils/mask.js";
-
+import Project from "../models/project.js";
 
 export const addKey = async (req, res) => {
   try {
-    const { serviceName, apiKey, projectId, label } = req.body;
+    const { serviceName, apiKey, projectId, label, expiryDate } = req.body;
 
     const encryptedKey = encrypt(apiKey);
 
@@ -15,6 +15,7 @@ export const addKey = async (req, res) => {
       label,
       encryptedKey,
       project: projectId,
+      expiryDate,
     });
 
     res.json(key);
@@ -34,12 +35,16 @@ export const getKeysByProject = async (req, res) => {
       const decrypted = decrypt(k.encryptedKey);
 
       return {
-         _id: k._id,
-        serviceName: k.serviceName,
-        label: k.label, 
-        maskedKey: maskKey(decrypted),
-        createdAt: k.createdAt,
-        lastUsed: k.lastUsed,
+       _id: k._id,
+       serviceName: k.serviceName,
+       label: k.label,
+       maskedKey: maskKey(decrypted),
+       createdAt: k.createdAt,
+       lastUsed: k.lastUsed,
+       expiryDate: k.expiryDate,
+       isExpired: k.expiryDate
+         ? new Date(k.expiryDate) < new Date()
+         : false,
       };
     });
 
@@ -76,5 +81,23 @@ export const deleteKey = async (req, res) => {
     res.json({ message: "Key deleted" });
   } catch (err) {
     res.status(500).json({ message: "Error deleting key" });
+  }
+};
+
+export const getAllKeys = async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    // get all projects of this user
+    const projects = await Project.find({ owner: userId });
+
+    const projectIds = projects.map((p) => p._id);
+
+    const keys = await Key.find({ project: { $in: projectIds } });
+
+    res.json(keys);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Error fetching keys" });
   }
 };
