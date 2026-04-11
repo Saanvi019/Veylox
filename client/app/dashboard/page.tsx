@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { CircuitBoard, FolderKey, Zap } from "lucide-react";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -74,18 +75,26 @@ const activeKeys = totalKeys - expiredKeys;
     <div className="flex-1 p-8 bg-[#f6ecd7] rounded-l-[60px] ">
 
       {/* STATS */}
-      <div className="flex justify-end mb-8">
+      <div className="flex justify-between items-start mb-8">
 
-        <h1 className="text-5xl font-medium text-[#0a1738] mr-65 mt-15">
-        Hello, User
-      </h1>
+  {/* LEFT: GREETING */}
+  <div>
+    <h1 className="text-5xl font-medium italic mt-20 text-[#0a1738]">
+      Hello, User
+    </h1>
 
+    <p className="text-md font-mono text-amber-700 mt-2">
+      Manage your API keys securely and stay on top of expirations...
+    </p>
+  </div>
+
+  {/* RIGHT: STATS */}
   <div className="grid grid-cols-2 gap-4 w-[520px]">
 
     {/* PROJECTS */}
-    <div className="bg-white p-5 rounded-2xl shadow-sm flex items-center gap-4">
-      <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-[#eaf2ff] text-xl">
-        📁
+    <div className="bg-[#c271072a] p-5 rounded-2xl shadow-sm flex items-center gap-4">
+      <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-[#fff4e6]">
+        <CircuitBoard className="w-6 h-6 text-[#d0833f]" />
       </div>
 
       <div>
@@ -102,9 +111,9 @@ const activeKeys = totalKeys - expiredKeys;
     </div>
 
     {/* API KEYS */}
-    <div className="bg-white p-5 rounded-2xl shadow-sm flex items-center gap-4">
-      <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-[#fff4e6] text-xl">
-        🔑
+    <div className="bg-[#c271072a] p-5 rounded-2xl shadow-sm flex items-center gap-4">
+      <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-[#fff4e6]">
+        <FolderKey className="w-6 h-6 text-[#d0833f]" />
       </div>
 
       <div>
@@ -120,10 +129,10 @@ const activeKeys = totalKeys - expiredKeys;
       </div>
     </div>
 
-    {/* ACTIVE (FULL WIDTH) */}
-    <div className="col-span-2 bg-white p-5 rounded-2xl shadow-sm flex items-center gap-4">
-      <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-[#e8fff3] text-xl">
-        ⚡
+    {/* ACTIVE */}
+    <div className="col-span-2 bg-[#c271072a] p-5 rounded-2xl shadow-sm flex items-center gap-4">
+      <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-[#fff4e6]">
+        <Zap className="w-6 h-6 text-green-600" />
       </div>
 
       <div>
