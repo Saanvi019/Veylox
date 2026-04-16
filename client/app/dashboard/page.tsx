@@ -119,14 +119,23 @@ for (let day = 1; day <= daysInMonth; day++) {
 
 
 // ================= EXPIRY DATES =================
-const expiryDates = allKeys
-  .filter((k) => k.expiryDate)
-  .map((k) => {
-    const d = new Date(k.expiryDate);
-    return d.getDate();
-  });
+const expiryMap: Record<number, any[]> = {};
 
+allKeys.forEach((k) => {
+  if (!k.expiryDate) return;
 
+  const d = new Date(k.expiryDate);
+  const day = d.getDate();
+
+  if (!expiryMap[day]) {
+    expiryMap[day] = [];
+  }
+
+  expiryMap[day].push(k);
+});
+
+  
+  
 
   return (
     <div className="min-h-screen bg-[#0a1738] flex">
@@ -229,30 +238,57 @@ const expiryDates = allKeys
             <div className="grid grid-cols-7 gap-2 text-sm">
 
   {/* DAYS HEADER */}
-  {["S", "M", "T", "W", "T", "F", "S"].map((d) => (
-    <div key={d} className="text-center text-gray-400 text-xs">
-      {d}
-    </div>
-  ))}
+  {["S", "M", "T", "W", "T", "F", "S"].map((d, index) => (
+  <div key={`${d}-${index}`} className="text-center text-gray-400 text-xs">
+    {d}
+  </div>
+))}
 
   {/* CALENDAR CELLS */}
   {calendarDays.map((day, index) => {
     const isToday =
       day === today.getDate();
 
-    const isExpiry = day && expiryDates.includes(day);
+    const isExpiry = day && expiryMap[day];
+const keysForDay = day ? expiryMap[day] : [];
 
     return (
       <div
-        key={index}
-        className={`h-10 flex items-center justify-center rounded-lg text-xs
-          ${day ? "bg-gray-50" : ""}
-          ${isToday ? "border border-[#d0833f] font-bold" : ""}
-          ${isExpiry ? "bg-red-100 text-red-600 font-semibold" : ""}
-        `}
-      >
-        {day || ""}
+  key={index}
+  className={`relative group h-10 flex items-center justify-center rounded-lg text-xs
+    ${day ? "bg-gray-50" : ""}
+    ${isToday ? "border border-[#d0833f] font-bold" : ""}
+    ${isExpiry ? "bg-red-100 text-red-600 font-semibold" : ""}
+  `}
+>
+  {day || ""}
+
+  {/* 🔥 HOVER POPUP */}
+  {isExpiry && keysForDay?.length > 0 && (
+    <div className="absolute bottom-full mb-2 hidden group-hover:block z-50">
+      
+      <div className="bg-[#0a1738] text-white text-xs rounded-lg px-3 py-2 shadow-lg w-max max-w-[200px]">
+
+        {keysForDay.map((k) => (
+          <div key={k._id}>
+            <p className="font-semibold">
+              {k.serviceName}
+            </p>
+            <p className="text-gray-300 text-[10px]">
+              {k.projectName || "Project"}
+            </p>
+          </div>
+        ))}
+
       </div>
+
+      {/* arrow */}
+      <div className="w-2 h-2 bg-[#0a1738] rotate-45 mx-auto -mt-1"></div>
+
+    </div>
+  )}
+
+</div>
     );
   })}
 
@@ -352,6 +388,61 @@ const expiryDates = allKeys
           </div>
         </div>
       </div>
+      {showModal && (
+  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    
+    <div className="bg-white p-6 rounded-2xl w-[400px]">
+      <h2 className="text-lg font-semibold mb-4">
+        Create Project
+      </h2>
+
+      <input
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Project name"
+        className="border px-3 py-2 rounded w-full mb-4"
+      />
+
+      <div className="flex justify-end gap-2">
+        
+        <button
+          onClick={() => setShowModal(false)}
+          className="px-4 py-2 text-gray-500"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={async () => {
+            const token = localStorage.getItem("token");
+
+            const res = await fetch("http://localhost:4000/api/projects", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({ name }),
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+              setProjects((prev) => [...prev, data]);
+              setName("");
+              setShowModal(false);
+            }
+          }}
+          className="bg-[#0a1738] text-white px-4 py-2 rounded"
+        >
+          Create
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+)}
     </div>
   );
 }

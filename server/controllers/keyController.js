@@ -89,7 +89,7 @@ export const getAllKeys = async (req, res) => {
     const userId = req.userId;
 
     // get all projects of this user
-    const projects = await Project.find({ owner: userId });
+   const projects = await Project.find({ ownerId: userId });
 
     const projectIds = projects.map((p) => p._id);
 
