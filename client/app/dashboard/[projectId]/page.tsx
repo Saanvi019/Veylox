@@ -32,7 +32,20 @@ export default function ProjectPage() {
   }, [projectId]);
 
   const handleAddKey = async () => {
-    if (!serviceName || !apiKey) return;
+    if (!serviceName.trim()) {
+  alert("Service name is required");
+  return;
+}
+
+if (!apiKey.trim()) {
+  alert("API key is required");
+  return;
+}
+
+if (apiKey.length < 10) {
+  alert("API key seems too short");
+  return;
+}
 
     const token = localStorage.getItem("token");
 
@@ -66,6 +79,11 @@ export default function ProjectPage() {
       setLabel("");
       setExpiryDate("");
     }
+    if (!res.ok) {
+  const errorData = await res.json();
+  alert(errorData.message || "Something went wrong");
+  return;
+}
   };
 
   return (
