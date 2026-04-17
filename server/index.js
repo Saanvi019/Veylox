@@ -9,6 +9,7 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import mongoSanitize from "express-mongo-sanitize";
 import xss from "xss-clean";
+import { startReminderJob } from "./cron/reminderJob.js";
 
 dotenv.config();
 if (!process.env.JWT_SECRET) {
@@ -39,7 +40,11 @@ app.use(
 );
 app.use(helmet());
 app.use(express.json());
-app.use(mongoSanitize()); 
+app.use(
+  mongoSanitize({
+    replaceWith: "_",
+  })
+);
 app.use(xss());           
 app.use(limiter);
 
@@ -54,3 +59,4 @@ app.get('/',(req,res)=>{
 app.listen(port,()=>{
     console.log(`running on ${port}`)
 })
+startReminderJob();
