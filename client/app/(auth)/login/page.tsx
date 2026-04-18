@@ -35,7 +35,14 @@ export default function LoginPage() {
         body: JSON.stringify(form),
       });
 
+
       const data = await res.json();
+      
+
+localStorage.setItem("token", data.token);
+
+// ✅ FORCE full app reset
+window.location.href = "/dashboard";
 
       if (res.ok) {
         localStorage.setItem("token", data.token);

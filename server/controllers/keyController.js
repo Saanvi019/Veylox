@@ -62,20 +62,20 @@ export const getKeysByProject = async (req, res) => {
   }
 };
 
-export const getFullKey = async (req, res) => {
+export const getAllKeysForUser = async (req, res) => {
   try {
-    const { keyId } = req.params;
+    const keys = await Key.find()
+      .populate({
+        path: "project",
+        match: { owner: req.user.id }, // ✅ filter by logged-in user
+      });
 
-    const key = await Key.findById(keyId);
+    // remove keys not belonging to user
+    const filteredKeys = keys.filter((k) => k.project !== null);
 
-    key.lastUsed = new Date();
-    await key.save();
-
-    const decrypted = decrypt(key.encryptedKey);
-
-    res.json({ apiKey: decrypted });
+    res.json(filteredKeys);
   } catch (err) {
-    res.status(500).json({ message: "Error fetching key" });
+    res.status(500).json({ message: "Error fetching keys" });
   }
 };
 

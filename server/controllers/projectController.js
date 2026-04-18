@@ -17,7 +17,7 @@ export const createProject = async (req, res) => {
 export const getProjects = async (req, res) => {
   try {
     const projects = await Project.find({
-      owner: req.user.id,
+      owner: req.user.id, 
     });
 
     res.json(projects);

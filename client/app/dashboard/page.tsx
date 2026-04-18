@@ -20,12 +20,20 @@ const formatTimeAgo = (dateString: string) => {
   return `${diffInDays} day${diffInDays > 1 ? "s" : ""} ago`;
 };
 
+const handleLogout = () => {
+  localStorage.removeItem("token");
+  localStorage.clear();
+
+  window.location.href = "/login"; // full reset
+};
+
 export default function Dashboard() {
   const router = useRouter();
   const [projects, setProjects] = useState<any[]>([]);
   const [name, setName] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [allKeys, setAllKeys] = useState<any[]>([]);
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -46,6 +54,17 @@ export default function Dashboard() {
       }
     };
 
+    const fetchUser = async () => {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch("http://localhost:4000/api/auth/me", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  const data = await res.json();
+  setUser(data);
+};
+
     const fetchKeys = async () => {
       const token = localStorage.getItem("token");
       const res = await fetch("http://localhost:4000/api/keys/user/all", {
@@ -54,9 +73,10 @@ export default function Dashboard() {
       const data = await res.json();
       setAllKeys(data);
     };
-
+    fetchUser();
     fetchKeys();
     fetchProjects();
+    
   }, [router]);
 
   const totalKeys = allKeys.length;
@@ -310,8 +330,20 @@ const keysForDay = day ? expiryMap[day] : [];
       <div className="w-[320px] bg-white p-8 border-l flex flex-col shadow-2xl">
         <div className="flex flex-col items-center text-center mb-8">
           <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-amber-200 to-[#0a1738] mb-4 shadow-inner" />
-          <h2 className="font-bold text-lg text-[#0a1738]">User Name</h2>
-          <p className="text-xs text-gray-400 font-mono">user@email.com</p>
+          <h2 className="font-bold text-lg text-[#0a1738]">
+  {user?.name || "User"}
+</h2>
+
+<p className="text-xs text-gray-400 font-mono">
+  {user?.email || ""}
+</p>
+
+          <button
+  onClick={handleLogout}
+  className="mt-8 w-full bg-red-500 text-white py-2 rounded-xl hover:bg-red-600 transition"
+>
+  Logout
+</button>
         </div>
 
         <div>
@@ -346,6 +378,7 @@ const keysForDay = day ? expiryMap[day] : [];
 
 </div>
         </div>
+
 
         <div className="mt-10">
           <div className="flex justify-between items-center mb-4">
@@ -437,8 +470,10 @@ const keysForDay = day ? expiryMap[day] : [];
         >
           Create
         </button>
+        
 
       </div>
+      
     </div>
 
   </div>
