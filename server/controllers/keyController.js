@@ -7,6 +7,13 @@ import Project from "../models/project.js";
 export const addKey = async (req, res) => {
   try {
     const { serviceName, apiKey, projectId, label, expiryDate } = req.body;
+    
+
+const project = await Project.findById(projectId);
+
+if (!project) {
+  return res.status(404).json({ message: "Project not found" });
+}
 
     const encryptedKey = encrypt(apiKey);
 

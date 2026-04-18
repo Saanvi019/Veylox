@@ -30,22 +30,40 @@ const limiter = rateLimit({
   message: "Too many requests, please try again later",
 });
 
-const app=express()
-const port=process.env.PORT;
+const app = express();
+const port = process.env.PORT;
+
+// ✅ CORS FIRST
 app.use(
   cors({
-    origin: "http://localhost:3000", 
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
+
+// ✅ Helmet
 app.use(helmet());
+
+// ✅ VERY IMPORTANT → parse JSON BEFORE using req.body
 app.use(express.json());
-app.use(
-  mongoSanitize({
-    replaceWith: "_",
-  })
-);
-app.use(xss());           
+
+// ✅ SAFE sanitization (after body exists)
+app.use((req, res, next) => {
+  if (req.body) {
+    req.body = mongoSanitize.sanitize(req.body);
+
+    const sanitizeString = (str) => str.replace(/<.*?>/g, "");
+
+    for (let key in req.body) {
+      if (typeof req.body[key] === "string") {
+        req.body[key] = sanitizeString(req.body[key]);
+      }
+    }
+  }
+  next();
+});
+
+// ✅ Rate limiter
 app.use(limiter);
 
 app.use("/api/auth",authRoutes);
