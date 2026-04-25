@@ -244,6 +244,28 @@ if (apiKey.length < 10) {
                             Expires {new Date(key.expiryDate).toLocaleDateString()}
                           </p>
                         )}
+                        {/* 🔥 USAGE + LIMIT */}
+                        {(
+  <div className="mt-2">
+    <p className="text-xs text-slate-500">
+      Usage: {key.usageCount || 0} / {key.limit || 100}
+    </p>
+
+    <div className="w-full bg-gray-200 h-2 rounded-full mt-1">
+      <div
+        className="bg-green-500 h-2 rounded-full"
+        style={{
+          width: `${
+            Math.min(
+              ((key.usageCount || 0) / (key.limit || 100)) * 100,
+              100
+            )
+          }%`,
+        }}
+      />
+    </div>
+  </div>
+)}
                       </div>
 
                       <div className="flex gap-2">

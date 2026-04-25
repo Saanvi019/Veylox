@@ -108,3 +108,19 @@ export const getAllKeys = async (req, res) => {
     res.status(500).json({ message: "Error fetching keys" });
   }
 };
+export const useKey = async (req, res) => {
+  try {
+    const key = await Key.findByIdAndUpdate(
+      req.params.id,
+      {
+        $inc: { usageCount: 1 },
+        lastUsed: new Date(),
+      },
+      { new: true }
+    );
+
+    res.json(key);
+  } catch (err) {
+    res.status(500).json({ message: "Error updating usage" });
+  }
+};

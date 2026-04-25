@@ -3,6 +3,14 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CircuitBoard, FolderKey, Zap, Clock } from "lucide-react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 // Helper to format "time ago"
 const formatTimeAgo = (dateString: string) => {
@@ -153,6 +161,10 @@ allKeys.forEach((k) => {
 
   expiryMap[day].push(k);
 });
+const usageData = allKeys.map((k) => ({
+  name: k.serviceName || "Unknown",
+  usage: k.usageCount || 0,
+}));
 
   
   
@@ -272,6 +284,7 @@ allKeys.forEach((k) => {
     const isExpiry = day && expiryMap[day];
 const keysForDay = day ? expiryMap[day] : [];
 
+
     return (
       <div
   key={index}
@@ -318,9 +331,20 @@ const keysForDay = day ? expiryMap[day] : [];
           {/* API USAGE */}
           <div className="bg-white p-6 rounded-3xl shadow-sm border border-amber-100 h-[350px]">
             <h2 className="text-lg font-bold text-[#0a1738] mb-4">Usage Overview</h2>
-            <div className="h-full flex items-center justify-center text-gray-400 bg-gray-50/50 rounded-xl mb-8">
-              Chart coming soon
-            </div>
+            {usageData.length === 0 ? (
+  <div className="h-full flex items-center justify-center text-gray-400">
+    No usage data yet
+  </div>
+) : (
+  <ResponsiveContainer width="100%" height={250}>
+    <BarChart data={usageData}>
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Tooltip />
+      <Bar dataKey="usage" radius={[6, 6, 0, 0]} />
+    </BarChart>
+  </ResponsiveContainer>
+)}
           </div>
 
         </div>

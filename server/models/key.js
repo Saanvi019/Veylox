@@ -24,6 +24,17 @@ const keySchema = new mongoose.Schema(
     expiryDate: {
       type: Date,
     },
+    lastReminderSent: {
+      type: Date,
+    },
+    usageCount: {
+     type: Number,
+     default: 0,
+    },
+    limit: {
+     type: Number,
+     default: 100,
+    }
   },
   { timestamps: true } 
 );
