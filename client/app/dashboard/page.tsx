@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import React from 'react';
+import { LayoutDashboard, FolderKanban, Home, Settings, LogOut } from 'lucide-react';
 import { CircuitBoard, FolderKey, Zap, Clock } from "lucide-react";
 import {
   BarChart,
@@ -62,14 +64,18 @@ export default function Dashboard() {
       }
     };
 
-    const fetchUser = async () => {
+   const fetchUser = async () => {
   const token = localStorage.getItem("token");
 
   const res = await fetch("http://localhost:4000/api/auth/me", {
     headers: { Authorization: `Bearer ${token}` },
   });
 
+  console.log("STATUS:", res.status);
+
   const data = await res.json();
+  console.log("USER DATA:", data);
+
   setUser(data);
 };
 
@@ -105,21 +111,37 @@ const today = new Date();
 
 // ================= REMINDERS =================
 const reminders = allKeys
-  .filter((k) => k.expiryDate)
   .map((k) => {
-    const expiry = new Date(k.expiryDate);
+    const expiry = k.expiryDate ? new Date(k.expiryDate) : null;
 
-    const diffTime = expiry.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const daysLeft = expiry
+      ? Math.ceil(
+          (expiry.getTime() - today.getTime()) /
+            (1000 * 60 * 60 * 24)
+        )
+      : null;
+
+    const usagePercent =
+      ((k.usageCount || 0) / (k.limit || 100)) * 100;
 
     return {
       ...k,
-      daysLeft: diffDays,
+      daysLeft,
+      highUsage: usagePercent > 80,
     };
   })
-  .filter((k) => k.daysLeft >= 0)
-  .sort((a, b) => a.daysLeft - b.daysLeft)
-  .slice(0, 3);
+  .filter(
+    (k) =>
+      (k.daysLeft !== null && k.daysLeft >= 0) || k.highUsage
+  )
+  .sort((a, b) => {
+    // 🔥 show high usage first
+    if (a.highUsage && !b.highUsage) return -1;
+    if (!a.highUsage && b.highUsage) return 1;
+
+    return (a.daysLeft || 999) - (b.daysLeft || 999);
+  })
+  .slice(0, 5);
 
 
 // ================= CALENDAR =================
@@ -172,10 +194,54 @@ const usageData = allKeys.map((k) => ({
   return (
     <div className="min-h-screen bg-[#0a1738] flex">
       {/* ================= SIDEBAR (Unchanged) ================= */}
-      <div className="w-[120px] bg-[#0a1738] text-white flex flex-col items-center py-6 gap-6">
-        <div className="text-xl font-bold">V</div>
-        <button className="p-2 hover:bg-white/10 rounded-lg">🏠</button>
-        <button className="p-2 hover:bg-white/10 rounded-lg">📁</button>
+      {/* ================= SIDEBAR (Enhanced) ================= */}
+      <div className="w-[120px] bg-[#0a1738] text-white flex flex-col items-center py-10 gap-8 shrink-0">
+        {/* Logo / Brand */}
+        <div className="relative group cursor-pointer">
+          <div className="absolute -inset-2 bg-amber-400/20 rounded-full blur opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="relative w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-2xl font-bold tracking-tighter">
+            V
+          </div>
+        </div>
+
+        {/* Navigation Buttons */}
+        <div className="flex flex-col gap-6 w-full items-center">
+          {/* Dashboard Button */}
+          <button 
+            title="Dashboard"
+            className="group relative p-3 rounded-2xl transition-all duration-300 hover:bg-amber-400/10 text-amber-400"
+          >
+            <LayoutDashboard size={28} strokeWidth={1.5} />
+            <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-amber-400 rounded-r-full shadow-[0_0_8px_rgba(251,191,36,0.6)]" />
+          </button>
+
+          {/* Projects Button */}
+          <button 
+            title="Projects"
+            className="group p-3 rounded-2xl transition-all duration-300 hover:bg-white/10 text-white/50 hover:text-white"
+          >
+            <FolderKanban size={28} strokeWidth={1.5} />
+          </button>
+
+          {/* Settings Button */}
+          <button 
+            title="Settings"
+            className="group p-3 rounded-2xl transition-all duration-300 hover:bg-white/10 text-white/50 hover:text-white"
+          >
+            <Settings size={28} strokeWidth={1.5} />
+          </button>
+        </div>
+
+        {/* Optional Spacer to push Logout to bottom */}
+        <div className="mt-auto mb-4">
+           <button 
+            onClick={handleLogout}
+            title="Logout"
+            className="p-3 rounded-2xl transition-all duration-300 hover:bg-red-500/10 text-white/30 hover:text-red-400"
+          >
+            <LogOut size={28} strokeWidth={1.5} />
+          </button>
+        </div>
       </div>
 
       {/* ================= MAIN ================= */}
@@ -283,6 +349,7 @@ const usageData = allKeys.map((k) => ({
 
     const isExpiry = day && expiryMap[day];
 const keysForDay = day ? expiryMap[day] : [];
+console.log(user);
 
 
     return (
@@ -355,19 +422,9 @@ const keysForDay = day ? expiryMap[day] : [];
         <div className="flex flex-col items-center text-center mb-8">
           <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-amber-200 to-[#0a1738] mb-4 shadow-inner" />
           <h2 className="font-bold text-lg text-[#0a1738]">
-  {user?.name || "User"}
+  {user?.email || "User"}
 </h2>
-
-<p className="text-xs text-gray-400 font-mono">
-  {user?.email || ""}
-</p>
-
-          <button
-  onClick={handleLogout}
-  className="mt-8 w-full bg-red-500 text-white py-2 rounded-xl hover:bg-red-600 transition"
->
-  Logout
-</button>
+         
         </div>
 
         <div>
@@ -379,16 +436,29 @@ const keysForDay = day ? expiryMap[day] : [];
       No upcoming expirations
     </div>
   ) : (
-    reminders.map((key) => (
-      <div
-        key={key._id}
-        className={`p-3 rounded-xl border ${
-          key.daysLeft <= 1
-            ? "bg-red-50 text-red-600 border-red-100"
-            : "bg-yellow-50 text-yellow-700 border-yellow-100"
-        }`}
-      >
-        {key.serviceName || "Key"} expires{" "}
+   reminders.map((key) => (
+  <div
+    key={key._id}
+    className={`p-3 rounded-xl border ${
+      key.highUsage
+        ? "bg-red-50 text-red-600 border-red-100"
+        : key.daysLeft <= 1
+        ? "bg-red-50 text-red-600 border-red-100"
+        : "bg-yellow-50 text-yellow-700 border-yellow-100"
+    }`}
+  >
+
+    {/* 🔥 USAGE WARNING */}
+    {key.highUsage && (
+      <p>
+        ⚠️ {key.serviceName} near usage limit
+      </p>
+    )}
+
+    {/* 🔥 EXPIRY WARNING */}
+    {key.daysLeft !== null && (
+      <p>
+        {key.serviceName} expires{" "}
         <span className="font-semibold">
           {key.daysLeft === 0
             ? "today"
@@ -396,8 +466,11 @@ const keysForDay = day ? expiryMap[day] : [];
             ? "tomorrow"
             : `in ${key.daysLeft} days`}
         </span>
-      </div>
-    ))
+      </p>
+    )}
+
+  </div>
+))
   )}
 
 </div>

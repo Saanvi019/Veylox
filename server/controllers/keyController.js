@@ -42,17 +42,21 @@ export const getKeysByProject = async (req, res) => {
       const decrypted = decrypt(k.encryptedKey);
 
       return {
-       _id: k._id,
-       serviceName: k.serviceName,
-       label: k.label,
-       maskedKey: maskKey(decrypted),
-       createdAt: k.createdAt,
-       lastUsed: k.lastUsed,
-       expiryDate: k.expiryDate,
-       isExpired: k.expiryDate
-         ? new Date(k.expiryDate) < new Date()
-         : false,
-      };
+  _id: k._id,
+  serviceName: k.serviceName,
+  label: k.label,
+  maskedKey: maskKey(decrypted),
+  createdAt: k.createdAt,
+  lastUsed: k.lastUsed,
+  expiryDate: k.expiryDate,
+  isExpired: k.expiryDate
+    ? new Date(k.expiryDate) < new Date()
+    : false,
+
+  
+  usageCount: k.usageCount,
+  limit: k.limit,
+};
     });
 
     res.json(formattedKeys);
@@ -111,13 +115,13 @@ export const getAllKeys = async (req, res) => {
 export const useKey = async (req, res) => {
   try {
     const key = await Key.findByIdAndUpdate(
-      req.params.id,
-      {
-        $inc: { usageCount: 1 },
-        lastUsed: new Date(),
-      },
-      { new: true }
-    );
+  req.params.id,
+  {
+    $inc: { usageCount: 1 },
+    lastUsed: new Date(),
+  },
+  { returnDocument: "after" }
+);
 
     res.json(key);
   } catch (err) {
