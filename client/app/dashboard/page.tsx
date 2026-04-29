@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import React from 'react';
 import { LayoutDashboard, FolderKanban, Home, Settings, LogOut } from 'lucide-react';
@@ -44,54 +46,59 @@ export default function Dashboard() {
   const [showModal, setShowModal] = useState(false);
   const [allKeys, setAllKeys] = useState<any[]>([]);
   const [user, setUser] = useState<any>(null);
+  const { status } = useSession();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      router.push("/login");
-      return;
-    }
-
-    const fetchProjects = async () => {
-      try {
-        const res = await fetch("http://localhost:4000/api/projects", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const data = await res.json();
-        setProjects(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-   const fetchUser = async () => {
   const token = localStorage.getItem("token");
 
-  const res = await fetch("http://localhost:4000/api/auth/me", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  // wait for session to load
+  if (status === "loading") return;
 
-  console.log("STATUS:", res.status);
+  // 🔥 allow BOTH auth types
+  if (!token && status !== "authenticated") {
+    router.push("/login");
+    return;
+  }
 
-  const data = await res.json();
-  console.log("USER DATA:", data);
-
-  setUser(data);
-};
-
-    const fetchKeys = async () => {
-      const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:4000/api/keys/user/all", {
+  // ===== FETCH DATA =====
+  const fetchProjects = async () => {
+    try {
+      const res = await fetch("http://localhost:4000/api/projects", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
-      setAllKeys(data);
-    };
-    fetchUser();
-    fetchKeys();
-    fetchProjects();
-    
-  }, [router]);
+      setProjects(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchUser = async () => {
+    if (!token) return; // 🔥 skip for OAuth users
+
+    const res = await fetch("http://localhost:4000/api/auth/me", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const data = await res.json();
+    setUser(data);
+  };
+
+  const fetchKeys = async () => {
+    if (!token) return; // 🔥 skip for OAuth users
+
+    const res = await fetch("http://localhost:4000/api/keys/user/all", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await res.json();
+    setAllKeys(data);
+  };
+
+  fetchUser();
+  fetchKeys();
+  fetchProjects();
+
+}, [status, router]);
 
   const totalKeys = allKeys.length;
   const expiredKeys = allKeys.filter(
