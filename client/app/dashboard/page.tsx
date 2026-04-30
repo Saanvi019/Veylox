@@ -66,32 +66,57 @@ export default function Dashboard() {
       const res = await fetch("http://localhost:4000/api/projects", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      const data = await res.json();
-      setProjects(data);
+      if (res.ok) {
+        const data = await res.json();
+        setProjects(Array.isArray(data) ? data : []);
+      } else {
+        console.error("Failed to fetch projects:", res.status);
+        setProjects([]);
+      }
     } catch (err) {
       console.error(err);
+      setProjects([]);
     }
   };
 
   const fetchUser = async () => {
     if (!token) return; // 🔥 skip for OAuth users
 
-    const res = await fetch("http://localhost:4000/api/auth/me", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    const data = await res.json();
-    setUser(data);
+    try {
+      const res = await fetch("http://localhost:4000/api/auth/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data);
+      } else {
+        console.error("Failed to fetch user:", res.status);
+        setUser(null);
+      }
+    } catch (err) {
+      console.error(err);
+      setUser(null);
+    }
   };
 
   const fetchKeys = async () => {
     if (!token) return; // 🔥 skip for OAuth users
 
-    const res = await fetch("http://localhost:4000/api/keys/user/all", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await res.json();
-    setAllKeys(data);
+    try {
+      const res = await fetch("http://localhost:4000/api/keys/user/all", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setAllKeys(Array.isArray(data) ? data : []);
+      } else {
+        console.error("Failed to fetch keys:", res.status);
+        setAllKeys([]);
+      }
+    } catch (err) {
+      console.error(err);
+      setAllKeys([]);
+    }
   };
 
   fetchUser();

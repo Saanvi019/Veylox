@@ -11,12 +11,8 @@ export default function LoginPage() {
   const { data: session, status } = useSession();
 const router = useRouter();
 
-useEffect(() => {
-  if (status === "authenticated") {
-    router.push("/dashboard");
-  }
-}, [status, router]);
-  
+// Removed the useEffect that redirects authenticated users to allow re-login
+
   const [error, setError] = useState("");
 
   const [form, setForm] = useState({
@@ -48,11 +44,6 @@ useEffect(() => {
 
       const data = await res.json();
       
-
-localStorage.setItem("token", data.token);
-
-// ✅ FORCE full app reset
-window.location.href = "/dashboard";
 
       if (res.ok) {
         localStorage.setItem("token", data.token);
