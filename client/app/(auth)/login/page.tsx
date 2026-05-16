@@ -24,6 +24,7 @@ export default function LoginPage() {
       const handleOAuthSuccess = async () => {
         try {
           // Call backend to get the token
+          if (!session?.user) return;
           const response = await fetch(
             "http://localhost:4000/api/auth/oauth-callback",
             {
