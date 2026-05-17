@@ -32,12 +32,12 @@ export default function LoginPage() {
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({
-                email: session.user.email,
-                name: session.user.name,
-                provider: "github", // or "google" based on which was used
-                providerId: session.user.id,
-              }),
+             body: JSON.stringify({
+  email: session?.user?.email,
+  name: session?.user?.name,
+  provider: "github",
+  providerId: session?.user?.email || "",
+})
             },
           );
 
