@@ -44,8 +44,8 @@ export const authOptions: NextAuthOptions = {
         }
 
         const data = await response.json();
-        user.id = data.user.id;
-        user.token = data.token;
+        (user as any).id = data.user.id;
+        (user as any).token = data.token;
 
         return true;
       } catch (error) {
