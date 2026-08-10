@@ -358,7 +358,7 @@ export default function Dashboard() {
         {/* MAIN CONTENT GRID - Adjusted to include Recent Activity */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* RECENT ACTIVITY SECTION (NEW) */}
-          <div className="bg-white p-6 rounded-3xl shadow-sm border border-amber-100 h-[350px]">
+          <div className="bg-white p-6 rounded-3xl shadow-sm border border-amber-100 min-h-[350px]">
             <div className="flex items-center gap-2 mb-6">
               <Clock className="w-5 h-5 text-amber-600" />
               <h2 className="text-lg font-bold text-[#0a1738]">
@@ -393,7 +393,7 @@ export default function Dashboard() {
           </div>
 
           {/* CALENDAR */}
-          <div className="bg-white p-6 rounded-3xl shadow-sm border border-amber-100 h-[350px]">
+          <div className="bg-white p-6 rounded-3xl shadow-sm border border-amber-100 min-h-[350px]">
             <h2 className="text-lg font-bold text-[#0a1738] mb-4">Calendar</h2>
             <div className="grid grid-cols-7 gap-2 text-sm">
               {/* DAYS HEADER */}
@@ -450,7 +450,7 @@ export default function Dashboard() {
           </div>
 
           {/* API USAGE */}
-          <div className="bg-white p-6 rounded-3xl shadow-sm border border-amber-100 h-[350px]">
+          <div className="bg-white p-6 rounded-3xl shadow-sm border border-amber-100 min-h-[350px]">
             <h2 className="text-lg font-bold text-[#0a1738] mb-4">
               Usage Overview
             </h2>
