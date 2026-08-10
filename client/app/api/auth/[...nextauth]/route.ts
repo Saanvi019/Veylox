@@ -44,8 +44,8 @@ export const authOptions: NextAuthOptions = {
         }
 
         const data = await response.json();
-        user.id = data.user.id;
-        user.token = data.token;
+        (user as any).id = data.user.id;
+        (user as any).token = data.token;
 
         return true;
       } catch (error) {
@@ -61,11 +61,12 @@ export const authOptions: NextAuthOptions = {
       return baseUrl;
     },
     async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.sub || "";
-      }
-      return session;
-    },
+  if (session.user) {
+    (session.user as any).id = token.sub || "";
+  }
+
+  return session;
+},
     async jwt({ token, user, account }) {
       if (user) {
         token.sub = user.id;
