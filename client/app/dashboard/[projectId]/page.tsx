@@ -110,9 +110,6 @@ export default function ProjectPage() {
             <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-amber-400 rounded-r-full shadow-[0_0_8px_rgba(251,191,36,0.6)]" />
           </button>
 
-          <button title="Settings" onClick={() => alert("Settings coming soon!")} className="group p-3 rounded-2xl transition-all duration-300 hover:bg-white/10 text-white/50 hover:text-white">
-            <Settings size={28} strokeWidth={1.5} />
-          </button>
         </div>
 
         <div className="mt-auto mb-4">

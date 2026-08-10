@@ -276,14 +276,6 @@ export default function Dashboard() {
             <FolderKanban size={28} strokeWidth={1.5} />
           </button>
 
-          {/* Settings Button */}
-          <button
-            title="Settings"
-            onClick={() => alert("Settings coming soon!")}
-            className="group p-3 rounded-2xl transition-all duration-300 hover:bg-white/10 text-white/50 hover:text-white"
-          >
-            <Settings size={28} strokeWidth={1.5} />
-          </button>
         </div>
 
         {/* Optional Spacer to push Logout to bottom */}
