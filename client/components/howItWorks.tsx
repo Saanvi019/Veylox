@@ -42,12 +42,6 @@ export default function HowItWorks() {
               Securely store your API keys in one centralized vault.
             </p>
 
-            {/* Image Placeholder */}
-            <img
-              src="/blueImg.png"
-              alt="Preview"
-              className="mt-6 h-[120px] w-full object-cover rounded-xl border border-white/10"
-            />
 
           </div>
 
@@ -69,12 +63,6 @@ export default function HowItWorks() {
               Group keys by project, environment, or service for clarity.
             </p>
 
-            {/* Image Placeholder */}
-            <img
-              src="/placeholder2.png"
-              alt="Preview"
-              className="mt-6 h-[120px] w-full object-cover rounded-xl border border-white/10"
-            />
 
           </div>
 
@@ -96,12 +84,6 @@ export default function HowItWorks() {
               Track usage and get alerts before issues impact your system.
             </p>
 
-            {/* Image Placeholder */}
-            <img
-              src="/placeholder3.png"
-              alt="Preview"
-              className="mt-6 h-[120px] w-full object-cover rounded-xl border border-white/10"
-            />
 
           </div>
 
