@@ -25,7 +25,7 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user, account, profile }) {
       try {
         // Call your backend to create/update user in MongoDB
-        const response = await fetch("http://localhost:4000/api/auth/oauth-callback", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/oauth-callback`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

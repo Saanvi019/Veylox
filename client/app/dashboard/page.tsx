@@ -45,7 +45,7 @@ const handleLogout = async () => {
 
     // Call backend logout endpoint
     if (token) {
-      await fetch("http://localhost:4000/api/auth/logout", {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -92,7 +92,7 @@ export default function Dashboard() {
     // ===== FETCH DATA =====
     const fetchProjects = async () => {
       try {
-        const res = await fetch("http://localhost:4000/api/projects", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.ok) {
@@ -112,7 +112,7 @@ export default function Dashboard() {
       if (!token) return; // 🔥 skip for OAuth users
 
       try {
-        const res = await fetch("http://localhost:4000/api/auth/me", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.ok) {
@@ -132,7 +132,7 @@ export default function Dashboard() {
       if (!token) return; // 🔥 skip for OAuth users
 
       try {
-        const res = await fetch("http://localhost:4000/api/keys/user/all", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/keys/user/all`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.ok) {
@@ -555,7 +555,7 @@ export default function Dashboard() {
                   onClick={async () => {
                     const token = localStorage.getItem("token");
                     await fetch(
-                      `http://localhost:4000/api/projects/${project._id}`,
+                      `${process.env.NEXT_PUBLIC_API_URL}/api/projects/${project._id}`,
                       {
                         method: "DELETE",
                         headers: { Authorization: `Bearer ${token}` },
@@ -599,7 +599,7 @@ export default function Dashboard() {
                   const token = localStorage.getItem("token");
 
                   const res = await fetch(
-                    "http://localhost:4000/api/projects",
+                    `${process.env.NEXT_PUBLIC_API_URL}/api/projects`,
                     {
                       method: "POST",
                       headers: {

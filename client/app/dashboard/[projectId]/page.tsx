@@ -27,7 +27,7 @@ export default function ProjectPage() {
     const fetchKeys = async () => {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `http://localhost:4000/api/keys/${projectId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/keys/${projectId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -45,7 +45,7 @@ export default function ProjectPage() {
     }
 
     const token = localStorage.getItem("token");
-    const res = await fetch("http://localhost:4000/api/keys", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/keys`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +62,7 @@ export default function ProjectPage() {
 
     if (res.ok) {
       const updated = await fetch(
-        `http://localhost:4000/api/keys/${projectId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/keys/${projectId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -286,7 +286,7 @@ export default function ProjectPage() {
               const token = localStorage.getItem("token");
 
               const res = await fetch(
-                `http://localhost:4000/api/keys/single/${key._id}`,
+                `${process.env.NEXT_PUBLIC_API_URL}/api/keys/single/${key._id}`,
                 {
                   headers: { Authorization: `Bearer ${token}` },
                 }
@@ -311,7 +311,7 @@ export default function ProjectPage() {
               const token = localStorage.getItem("token");
 
               await fetch(
-                `http://localhost:4000/api/keys/${key._id}`,
+                `${process.env.NEXT_PUBLIC_API_URL}/api/keys/${key._id}`,
                 {
                   method: "DELETE",
                   headers: { Authorization: `Bearer ${token}` },
@@ -335,7 +335,7 @@ export default function ProjectPage() {
 
               // increment usage
               await fetch(
-                `http://localhost:4000/api/keys/use/${key._id}`,
+                `${process.env.NEXT_PUBLIC_API_URL}/api/keys/use/${key._id}`,
                 {
                   method: "PUT",
                   headers: { Authorization: `Bearer ${token}` },
@@ -344,7 +344,7 @@ export default function ProjectPage() {
 
               // refetch updated keys
               const res = await fetch(
-                `http://localhost:4000/api/keys/${projectId}`,
+                `${process.env.NEXT_PUBLIC_API_URL}/api/keys/${projectId}`,
                 {
                   headers: { Authorization: `Bearer ${token}` },
                 }

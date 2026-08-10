@@ -26,7 +26,7 @@ export default function LoginPage() {
           // Call backend to get the token
           
           const response = await fetch(
-            "http://localhost:4000/api/auth/oauth-callback",
+            `${process.env.NEXT_PUBLIC_API_URL}/api/auth/oauth-callback`,
             {
               method: "POST",
               headers: {
@@ -73,7 +73,7 @@ export default function LoginPage() {
       return;
     }
     try {
-      const res = await fetch("http://localhost:4000/api/auth/login", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

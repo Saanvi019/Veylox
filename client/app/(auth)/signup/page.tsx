@@ -27,7 +27,7 @@ export default function SignupPage() {
         try {
           // Call backend to create/update user
           const response = await fetch(
-            "http://localhost:4000/api/auth/oauth-callback",
+            `${process.env.NEXT_PUBLIC_API_URL}/api/auth/oauth-callback`,
             {
               method: "POST",
               headers: {
@@ -80,7 +80,7 @@ export default function SignupPage() {
     }
 
     try {
-      const res = await fetch("http://localhost:4000/api/auth/signup", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
