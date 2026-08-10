@@ -248,7 +248,7 @@ export default function Dashboard() {
       {/* ================= SIDEBAR (Enhanced) ================= */}
       <div className="w-[120px] bg-[#0a1738] text-white flex flex-col items-center py-10 gap-8 shrink-0">
         {/* Logo / Brand */}
-        <div className="relative group cursor-pointer">
+        <div className="relative group cursor-pointer" onClick={() => router.push("/dashboard")}>
           <div className="absolute -inset-2 bg-amber-400/20 rounded-full blur opacity-0 group-hover:opacity-100 transition-opacity" />
           <div className="relative w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-2xl font-bold tracking-tighter">
             V
@@ -260,6 +260,7 @@ export default function Dashboard() {
           {/* Dashboard Button */}
           <button
             title="Dashboard"
+            onClick={() => router.push("/dashboard")}
             className="group relative p-3 rounded-2xl transition-all duration-300 hover:bg-amber-400/10 text-amber-400"
           >
             <LayoutDashboard size={28} strokeWidth={1.5} />
@@ -269,6 +270,7 @@ export default function Dashboard() {
           {/* Projects Button */}
           <button
             title="Projects"
+            onClick={() => router.push("/dashboard")}
             className="group p-3 rounded-2xl transition-all duration-300 hover:bg-white/10 text-white/50 hover:text-white"
           >
             <FolderKanban size={28} strokeWidth={1.5} />
@@ -277,6 +279,7 @@ export default function Dashboard() {
           {/* Settings Button */}
           <button
             title="Settings"
+            onClick={() => alert("Settings coming soon!")}
             className="group p-3 rounded-2xl transition-all duration-300 hover:bg-white/10 text-white/50 hover:text-white"
           >
             <Settings size={28} strokeWidth={1.5} />
