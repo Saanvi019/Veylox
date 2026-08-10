@@ -36,7 +36,7 @@ const port = process.env.PORT;
 // ✅ CORS FIRST
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [process.env.CLIENT_URL || "http://localhost:3000", "https://veylox.vercel.app"],
     credentials: true,
   })
 );
